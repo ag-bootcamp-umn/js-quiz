@@ -56,12 +56,18 @@ var questions = [
 var timer = document.querySelector(".timer");
 var center = document.querySelector(".center");
 var title = document.querySelector(".title");
-var answers = document.querySelector(".answers");
+var list = document.querySelector(".center-list");
 var outcome = document.querySelector(".outcome");
 
+var highScores = document.querySelector("#highscores");
+var modal = document.querySelector(".modal");
+var initials = document.querySelector("#initials");
+var playerScore = document.querySelector("#score");
+var saveButton = document.querySelector("#save-score");
+
 var buttons = document.querySelectorAll(".button");
-var mainButton = document.querySelector(".button--1");
-var otherButton = document.querySelector(".button--2");
+var mainButton = document.querySelector("#button--1");
+var otherButton = document.querySelector("#button--2");
 
 // IMPORTANT COUNTERS
 var time = 60;
@@ -71,6 +77,8 @@ var score = 0;
 mainButton.addEventListener("click", initiate, { once: true });
 
 function initiate() {
+
+  highScores.classList.add('hidden');
   hideButtons();
 
   // START TIMER
@@ -97,7 +105,7 @@ function hideButtons() {
 }
 
 function displayQuestion() {
-  answers.innerHTML = "";
+  list.innerHTML = "";
 
   var question = questions[q];
   console.log(question);
@@ -106,10 +114,10 @@ function displayQuestion() {
   for (var i = 0; i < question.answers.length; i++) {
     var li = document.createElement("li");
     li.textContent = `${question.answers[i]}`;
-    answers.appendChild(li);
+    list.appendChild(li);
   }
 
-  answers.addEventListener("click", verifyAnswer, { once: true });
+  list.addEventListener("click", verifyAnswer, { once: true });
 }
 
 function verifyAnswer(e) {
@@ -131,10 +139,10 @@ function verifyAnswer(e) {
 }
 
 function endGame() {
-    answers.removeEventListener('click', verifyAnswer);
+    list.removeEventListener('click', verifyAnswer);
   time = 0;
   timer.textContent = "Time's up!";
-  answers.innerHTML = "";
+  list.innerHTML = "";
   title.textContent = "That's all, folks!";
   outcome.style.color = "green";
   outcome.textContent = `Your final score is ${score}.`;
@@ -155,10 +163,47 @@ function endGame() {
   otherButton.textContent = "Add me to highscores";
 }
 
-otherButton.addEventListener('click', addScore);
+otherButton.addEventListener('click', inputScore);
 
-function addScore() {
-  // Create and append input field
-  // Name: get the user to input their name
-  // 
+function inputScore() {
+  // Show input form
+  modal.classList.toggle('hidden');
+
+  // Score: populate input field fom score variable
+  playerScore.value = score;
+
+  // Handle Click event on input button
+  saveButton.addEventListener('click', saveScore, { once: true });
+
+}
+
+highScores.addEventListener('click', showScores);
+
+function saveScore(e) {
+  e.preventDefault();
+
+  if (initials.value) {
+    localStorage.setItem("score", playerScore.value);
+    localStorage.setItem("initials", initials.value);
+    showScores();
+    modal.classList.toggle('hidden');
+  } else {
+    alert("Don't be bashful- go ahead and enter your initials!");
+    saveButton.addEventListener('click', saveScore, { once: true });
+  }
+
+}
+
+function showScores() {
+
+  var hiScore = localStorage.getItem("score");
+  var hiInits = localStorage.getItem("initials");
+
+  title.textContent = "High Scores:";
+  outcome.textContent = hiInits + ": " + hiScore;
+
+  if (mainButton.classList.contains("hidden")) mainButton.classList.remove("hidden");
+
+  if (!otherButton.classList.contains("hidden")) otherButton.classList.add("hidden");
+  list.innerHTML = '';
 }

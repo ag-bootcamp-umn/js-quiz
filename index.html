@@ -10,21 +10,28 @@
 </head>
 <body>
     <header>
-        <a href="#" class="highsores">View Highscores</a>
+        <a href="#" class="button" id="highscores">View Highscores</a>
         <h3 class="timer"></h3>
     </header>
     <main>
         <section class="center">
             <h1 class="title">Test your knowledge</h1>
-            <ul class="answers">
+            <ul class="center-list">
 
             </ul>
             <h2 class="outcome"></h2>
             <div class="buttons">
-                <button class="button button--1">Click to start</button>
-                <button class="button button--2 hidden">Click to start</button>
+                <button class="button" id="button--1">Click to start</button>
+                <button class="button hidden" id="button--2">Click to start</button>
             </div>
             
+        </section>
+        <section class="modal hidden">
+            <form method="POST">
+                <input type="text" class="initials" id="initials" placeholder="Enter your name or initials">
+                <input type="text" class="score" id="score" value="6" readonly>
+                <button class="button" id="save-score">SAVE</button>
+            </form>
         </section>
     </main>
     
