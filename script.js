@@ -72,7 +72,8 @@ mainButton.addEventListener("click", initiate, { once: true });
 
 function initiate() {
   hideButtons();
-  // startTimer();
+
+  // START TIMER
   timer.textContent = time;
   var timeCount = setInterval(function () {
     time--;
@@ -83,6 +84,7 @@ function initiate() {
     }
     console.log(time);
   }, 1000);
+  // END TIMER
 
   displayQuestion();
   outcome.textContent = "";
@@ -151,4 +153,12 @@ function endGame() {
     { once: true }
   );
   otherButton.textContent = "Add me to highscores";
+}
+
+otherButton.addEventListener('click', addScore);
+
+function addScore() {
+  // Create and append input field
+  // Name: get the user to input their name
+  // 
 }
