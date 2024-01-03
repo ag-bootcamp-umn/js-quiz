@@ -55,9 +55,9 @@ var questions = [
 // GET DOM ELEMENTS
 var timer = document.querySelector(".timer");
 var center = document.querySelector(".center");
-var title = document.querySelector(".title");
-var list = document.querySelector(".center-list");
-var outcome = document.querySelector(".outcome");
+var title = document.querySelector(".center > h1");
+var list = document.querySelector(".center > ul");
+var outcome = document.querySelector(".center > h2");
 
 var highScores = document.querySelector("#highscores");
 var modal = document.querySelector(".modal");
@@ -65,7 +65,7 @@ var initials = document.querySelector("#initials");
 var playerScore = document.querySelector("#score");
 var saveButton = document.querySelector("#save-score");
 
-var buttons = document.querySelectorAll(".button");
+var buttons = document.querySelectorAll("button");
 var mainButton = document.querySelector("#button--1");
 var otherButton = document.querySelector("#button--2");
 
