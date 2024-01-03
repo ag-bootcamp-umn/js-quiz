@@ -100,7 +100,7 @@ function initiate() {
 
 function hideButtons() {
   buttons.forEach(function (btn) {
-    if (!btn.classList.contains("hidden")) btn.classList.add("hidden");
+    hide(btn);
   });
 }
 
@@ -202,10 +202,9 @@ function showScores() {
 
   title.textContent = "High Scores:";
   outcome.textContent = hiInits + ": " + hiScore;
-
-
+  hide(timer);
   buttons.forEach(function(btn) {
-    if (btn.classList.contains("hidden")) btn.classList.remove("hidden");
+    show(btn);
   });
   otherButton.textContent = 'Home';
   otherButton.addEventListener('click', reset, { once:true });
@@ -216,5 +215,18 @@ function reset() {
   list.innerHTML = '';
   outcome.textContent = '';
   mainButton.textContent = 'Click to start';
-  // hide(otherButton);
+  hide(otherButton);
+  show(highScores);
+}
+
+function hide(el) {
+  if(!el.classList.contains('hidden')) {
+    el.classList.add('hidden');
+  }
+}
+
+function show(el) {
+  if(el.classList.contains('hidden')) {
+    el.classList.remove('hidden');
+  }
 }
