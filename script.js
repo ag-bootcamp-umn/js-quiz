@@ -58,27 +58,30 @@ var center = document.querySelector(".center");
 var title = document.querySelector(".center > h1");
 var list = document.querySelector(".center > ul");
 var outcome = document.querySelector(".center > h2");
-
-var highScores = document.querySelector("#highscores");
 var modal = document.querySelector(".modal");
+var buttons = document.querySelectorAll(".buttons > button");
+
+// Input Fields
 var initials = document.querySelector("#initials");
 var playerScore = document.querySelector("#score");
-var saveButton = document.querySelector("#save-score");
 
-var buttons = document.querySelectorAll(".buttons > button");
-var mainButton = document.querySelector("#button--1");
-var otherButton = document.querySelector("#button--2");
+// For Click Events:
+var mainButton = document.querySelector(".button--1");
+var otherButton = document.querySelector(".button--2");
+var saveButton = document.querySelector(".save-score");
+var highScores = document.querySelector(".highscores");
 
 // IMPORTANT COUNTERS
 var time = 60;
 var q = 0;
 var score = 0;
 
-mainButton.addEventListener("click", initiate, { once: true });
-
 function initiate() {
-
+  time = 60;
+  q = 0;
+  score = 0;
   highScores.classList.add('hidden');
+  show(timer);
   hideButtons();
 
   // START TIMER
@@ -114,10 +117,9 @@ function displayQuestion() {
   for (var i = 0; i < question.answers.length; i++) {
     var li = document.createElement("li");
     li.textContent = `${question.answers[i]}`;
+    li.classList.add('option');
     list.appendChild(li);
   }
-
-  list.addEventListener("click", verifyAnswer, { once: true });
 }
 
 function verifyAnswer(e) {
@@ -139,9 +141,8 @@ function verifyAnswer(e) {
 }
 
 function endGame() {
-    list.removeEventListener('click', verifyAnswer);
   time = 0;
-  timer.textContent = "Time's up!";
+  timer.textContent = "";
   list.innerHTML = "";
   title.textContent = "That's all, folks!";
   outcome.style.color = "green";
@@ -150,18 +151,8 @@ function endGame() {
     btn.classList.remove("hidden");
   });
   mainButton.textContent = "Play Again";
-  mainButton.addEventListener(
-    "click",
-    function () {
-      time = 60;
-      q = 0;
-      score = 0;
-      initiate();
-    },
-    { once: true }
-  );
   otherButton.textContent = "Add me to highscores";
-  otherButton.addEventListener('click', inputScore, { once:true });
+  otherButton.id = 'add';
 }
 
 
@@ -173,12 +164,9 @@ function inputScore() {
   // Score: populate input field fom score variable
   playerScore.value = score;
 
-  // Handle Click event on input button
-  saveButton.addEventListener('click', saveScore, { once: true });
 
 }
 
-highScores.addEventListener('click', showScores);
 
 function saveScore(e) {
   e.preventDefault();
@@ -190,7 +178,6 @@ function saveScore(e) {
     modal.classList.toggle('hidden');
   } else {
     alert("Don't be bashful- go ahead and enter your initials!");
-    saveButton.addEventListener('click', saveScore, { once: true });
   }
 
 }
@@ -207,7 +194,7 @@ function showScores() {
     show(btn);
   });
   otherButton.textContent = 'Home';
-  otherButton.addEventListener('click', reset, { once:true });
+  otherButton.id = 'home';
 }
 
 function reset() {
@@ -230,3 +217,45 @@ function show(el) {
     el.classList.remove('hidden');
   }
 }
+
+// ONE EVENT LISTENER TO CATCH THEM ALL...!
+document.querySelector('body').addEventListener('click', function(e) {
+  var t = e.target;
+
+  if (t.matches('li')) {
+    console.log("option");
+    verifyAnswer(e);
+  } else if (t.matches('button')) {
+    console.log("button");
+  }
+
+  switch (t.id) {
+    case 'start':
+      console.log('start id')
+      initiate();
+      break;
+      
+    case 'add':
+      console.log('add id');
+      inputScore();
+      break;
+      
+    case 'save':
+      console.log('add id');
+      saveScore(e);
+      break;
+      
+    case 'home':
+      console.log('add id');
+      reset();
+      break;
+      
+    case 'highscores':
+      console.log('add id');
+      showScores();
+      break;
+
+    default:
+      break;
+  }
+});
