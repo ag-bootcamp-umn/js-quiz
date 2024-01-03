@@ -65,7 +65,7 @@ var initials = document.querySelector("#initials");
 var playerScore = document.querySelector("#score");
 var saveButton = document.querySelector("#save-score");
 
-var buttons = document.querySelectorAll("button");
+var buttons = document.querySelectorAll(".buttons > button");
 var mainButton = document.querySelector("#button--1");
 var otherButton = document.querySelector("#button--2");
 
@@ -161,9 +161,10 @@ function endGame() {
     { once: true }
   );
   otherButton.textContent = "Add me to highscores";
+  otherButton.addEventListener('click', inputScore, { once:true });
 }
 
-otherButton.addEventListener('click', inputScore);
+
 
 function inputScore() {
   // Show input form
@@ -202,8 +203,18 @@ function showScores() {
   title.textContent = "High Scores:";
   outcome.textContent = hiInits + ": " + hiScore;
 
-  if (mainButton.classList.contains("hidden")) mainButton.classList.remove("hidden");
 
-  if (!otherButton.classList.contains("hidden")) otherButton.classList.add("hidden");
+  buttons.forEach(function(btn) {
+    if (btn.classList.contains("hidden")) btn.classList.remove("hidden");
+  });
+  otherButton.textContent = 'Home';
+  otherButton.addEventListener('click', reset, { once:true });
+}
+
+function reset() {
+  title.textContent = 'Test your knowledge';
   list.innerHTML = '';
+  outcome.textContent = '';
+  mainButton.textContent = 'Click to start';
+  // hide(otherButton);
 }
