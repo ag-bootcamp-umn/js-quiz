@@ -91,7 +91,7 @@ function initiate() {
     timer.textContent = time;
     if (time <= 0 || q >= questions.length) {
       clearInterval(timeCount);
-      endGame();
+      return endGame();
     }
     console.log(time);
   }, 1000);
@@ -136,7 +136,7 @@ function verifyAnswer(e) {
   }
   q++;
   if (q < questions.length) {
-    displayQuestion();
+    return displayQuestion();
   }
 }
 
@@ -174,8 +174,9 @@ function saveScore(e) {
   if (initials.value) {
     localStorage.setItem("score", playerScore.value);
     localStorage.setItem("initials", initials.value);
-    showScores();
+    initials.value = '';
     modal.classList.toggle('hidden');
+    return showScores();
   } else {
     alert("Don't be bashful- go ahead and enter your initials!");
   }
